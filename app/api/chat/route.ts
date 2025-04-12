@@ -102,10 +102,21 @@ Please answer based on this context information. If you can't find the answer in
 
     console.log("Claude API response received");
 
+    // Extract response content safely
+    let responseContent = "";
+    if (response.content && response.content.length > 0) {
+      const firstBlock = response.content[0];
+      if ('text' in firstBlock) {
+        responseContent = firstBlock.text;
+      } else {
+        responseContent = "I received a response in an unexpected format. Please try again.";
+      }
+    }
+
     // 5. Return regular JSON response
     return new Response(JSON.stringify({
       role: 'assistant',
-      content: response.content[0].text
+      content: responseContent
     }), {
       headers: {
         'Content-Type': 'application/json'
