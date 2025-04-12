@@ -1,8 +1,13 @@
-import { AIConfig } from 'ai';
-
-// Configure the AI module to use our route for chat
+// Export the runtime configuration for Edge
 export const runtime = 'edge';
 
-export const config: AIConfig = {
-  baseUrl: '/api/chat'
+// We're not using the AI SDK's built-in config anymore
+// since we're handling the streaming manually
+export const config = {
+  api: {
+    // Increase the body size limit if needed
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+  },
 };
