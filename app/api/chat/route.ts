@@ -9,6 +9,12 @@ interface DocumentResult {
   content: string;
 }
 
+// Define message type
+interface ChatMessage {
+  role: string;
+  content: string;
+}
+
 // Configure Anthropic client
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY || '',
@@ -77,7 +83,7 @@ export async function POST(req: NextRequest) {
       temperature: 0.7,
       system: "You are a helpful assistant that answers questions based on the provided context. If the answer cannot be found in the context, say so clearly. Always cite your sources.",
       messages: [
-        ...messages.slice(0, -1).map((msg) => ({
+        ...messages.slice(0, -1).map((msg: ChatMessage) => ({
           role: msg.role as "user" | "assistant",
           content: msg.content
         })),
