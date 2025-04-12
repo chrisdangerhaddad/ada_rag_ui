@@ -2,9 +2,29 @@
 
 import { useState } from 'react';
 
+// Define types for the response data
+interface EmbeddingData {
+  length: number;
+  first10Values: number[];
+  processingTimeMs: number;
+}
+
+interface DocumentPreview {
+  similarity: number;
+  source: string;
+  contentPreview: string;
+}
+
+interface ResponseData {
+  success: boolean;
+  embedding?: EmbeddingData;
+  documents?: DocumentPreview[];
+  error?: string;
+}
+
 export default function DebugPage() {
   const [query, setQuery] = useState('');
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ResponseData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,15 +41,15 @@ export default function DebugPage() {
         body: JSON.stringify({ query }),
       });
       
-      const data = await response.json();
+      const data = await response.json() as ResponseData;
       setResult(data);
       
       if (!response.ok) {
         throw new Error(data.error || 'Unknown error occurred');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Debug test failed:', err);
-      setError(err.message);
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
     }
@@ -98,7 +118,7 @@ export default function DebugPage() {
                 <div>
                   <p className="mb-2">✅ Found {result.documents.length} relevant documents</p>
                   <div className="space-y-4">
-                    {result.documents.map((doc: any, i: number) => (
+                    {result.documents.map((doc, i) => (
                       <div key={i} className="border border-gray-200 p-3 rounded">
                         <p><strong>Similarity:</strong> {doc.similarity.toFixed(4)}</p>
                         <p><strong>Source:</strong> {doc.source}</p>

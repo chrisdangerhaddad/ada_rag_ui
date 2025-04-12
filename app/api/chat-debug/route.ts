@@ -1,6 +1,13 @@
 import { supabase } from '../../../utils/supabase';
 import { NextRequest } from 'next/server';
 
+// Define types for document structures
+interface DocumentResult {
+  similarity: number;
+  source: string;
+  content: string;
+}
+
 export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
@@ -47,7 +54,7 @@ export async function POST(req: NextRequest) {
         first10Values: embeddingData.embedding.slice(0, 10),
         processingTimeMs: embeddingData.processing_time_ms
       },
-      documents: documents.map((doc: any) => ({
+      documents: (documents as DocumentResult[]).map((doc) => ({
         similarity: doc.similarity,
         source: doc.source,
         contentPreview: doc.content.substring(0, 100) + '...'
@@ -57,12 +64,13 @@ export async function POST(req: NextRequest) {
       headers: { 'Content-Type': 'application/json' }
     });
     
-  } catch (error: any) {
-    console.error('Debug API Error:', error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('Debug API Error:', errorMessage);
     return new Response(JSON.stringify({ 
       success: false, 
-      error: error.message,
-      stack: error.stack
+      error: errorMessage,
+      stack: error instanceof Error ? error.stack : undefined
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }

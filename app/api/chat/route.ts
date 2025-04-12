@@ -2,6 +2,13 @@ import { supabase } from '../../../utils/supabase';
 import { NextRequest } from 'next/server';
 import { Anthropic } from '@anthropic-ai/sdk';
 
+// Define types for document structures
+interface DocumentResult {
+  similarity: number;
+  source: string;
+  content: string;
+}
+
 // Configure Anthropic client
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY || '',
@@ -58,7 +65,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Prepare context from retrieved documents
-    const context = documents.map((doc: any) => {
+    const context = (documents as DocumentResult[]).map((doc) => {
       return `Source: ${doc.source}\n${doc.content}`;
     }).join('\n\n');
 
@@ -70,7 +77,7 @@ export async function POST(req: NextRequest) {
       temperature: 0.7,
       system: "You are a helpful assistant that answers questions based on the provided context. If the answer cannot be found in the context, say so clearly. Always cite your sources.",
       messages: [
-        ...messages.slice(0, -1).map((msg: any) => ({
+        ...messages.slice(0, -1).map((msg) => ({
           role: msg.role as "user" | "assistant",
           content: msg.content
         })),
@@ -99,9 +106,10 @@ Please answer based on this context information. If you can't find the answer in
       }
     });
     
-  } catch (error: any) {
-    console.error('Error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('Error:', errorMessage);
+    return new Response(JSON.stringify({ error: errorMessage }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
