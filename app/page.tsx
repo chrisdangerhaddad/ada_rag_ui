@@ -167,7 +167,7 @@ export default function ChatPage() {
               <div className="text-center py-16 px-4">
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">Welcome to the Dental AI Assistant</h2>
                 <p className="text-gray-600 mb-4">
-                  Ask me questions about dental programs, education, or policies, and I&apos;ll find the most relevant information for you.
+                  Ask me questions about dental hygiene, oral care techniques, and recommended products, and I&apos;ll find the most relevant information for you.
                 </p>
                 <p className="text-gray-600 text-sm">Try one of the suggested questions from the sidebar →</p>
               </div>
