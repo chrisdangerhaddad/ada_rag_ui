@@ -10,11 +10,11 @@ type Message = {
 
 // Suggested questions that can be updated easily
 const SUGGESTED_QUESTIONS = [
-  "What is the ADA CERP program?",
-  "What is the difference between \"administrative services only (ASO)\" and a fully insured dental benefit program?",
-  "Can you explain the \"birthday rule\" in the context of dental insurance for dependent children?",
-  "According to this glossary, what are some examples of \"cost containment\" measures in a dental benefit program?",
-  "How does the American Dental Political Action Committee (ADPAC) give dentists a voice in Washington, D.C.?"
+  "What's the proper technique for brushing teeth according to dental experts?",
+  "How often should I replace my toothbrush, and what type is recommended?",
+  "Is flossing really necessary, and what's the correct way to floss?",
+  "What ingredients should I look for in a good toothpaste?",
+  "How can mouthwash complement my daily oral hygiene routine?"
 ];
 
 export default function ChatPage() {
