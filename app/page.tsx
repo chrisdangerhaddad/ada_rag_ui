@@ -169,7 +169,7 @@ export default function ChatPage() {
                 <p className="text-gray-600 mb-4">
                   Ask me questions about dental programs, education, or policies, and I&apos;ll find the most relevant information for you.
                 </p>
-                <p className="text-gray-500 text-sm">Try one of the suggested questions from the sidebar →</p>
+                <p className="text-gray-600 text-sm">Try one of the suggested questions from the sidebar →</p>
               </div>
             )}
             
@@ -182,7 +182,7 @@ export default function ChatPage() {
                   className={`rounded-2xl px-4 py-3 max-w-[85%] sm:max-w-[75%] shadow-sm ${
                     message.role === 'user' 
                       ? 'bg-blue-600 text-white rounded-tr-none' 
-                      : 'bg-white border border-gray-200 rounded-tl-none'
+                      : 'bg-white border border-gray-200 rounded-tl-none text-gray-800'
                   }`}
                 >
                   {message.content || (message.role === 'assistant' && isLoading && 
@@ -211,7 +211,7 @@ export default function ChatPage() {
                 <button
                   key={index}
                   onClick={() => setInput(question)}
-                  className="w-full p-3 text-left bg-gray-50 hover:bg-blue-50 rounded-lg border border-gray-200 text-sm transition"
+                  className="w-full p-3 text-left bg-blue-50 hover:bg-blue-100 rounded-lg border border-gray-200 text-gray-700 text-sm transition"
                 >
                   {question}
                 </button>
@@ -228,7 +228,7 @@ export default function ChatPage() {
             <div className="flex-1 bg-gray-100 rounded-lg border border-gray-300 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition">
               <textarea
                 ref={inputRef}
-                className="w-full bg-transparent p-3 max-h-[150px] focus:outline-none resize-none"
+                className="w-full bg-transparent p-3 max-h-[150px] focus:outline-none resize-none text-gray-800"
                 value={input}
                 onChange={handleTextareaInput}
                 onKeyDown={handleKeyDown}
