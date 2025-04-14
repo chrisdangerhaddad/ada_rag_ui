@@ -232,7 +232,7 @@ export default function ChatPage() {
                 value={input}
                 onChange={handleTextareaInput}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask me about dental programs, education, or policies..."
+                placeholder="Ask me about dental hygiene, oral care techniques, and recommended products..."
                 rows={1}
                 disabled={isLoading}
               />
